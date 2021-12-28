@@ -2,35 +2,37 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Post;
+use Illuminate\Http\Request;
+
 class PostController extends Controller
 {
-    //
+
     public function index()
     {
-        //$title = "Mon super titre ! ";
-        //$desc = "Ma description ...";
-        //return view('articles',compact('title'));
-        //return view('articles')->with('title',$title);
-//        return view('articles',[
-//            'title'=>$title,
-//            'desc'=>$desc
-//        ]);
+        //$posts = Post::all();
+        //dd($posts);
+        //update
+       /* $post = Post::find(1);
+        $post->update(['title'=>"New title"]);
+        dd("modifié ");*/
 
-        $posts = [
-            'My title',
-            'This is a description'
-        ];
+        //delete
+      /*  $post = Post::find(8);
+        $post->delete();
+        dd("supprimé");*/
+
+        $posts = Post::orderByDesc('created_at')->take(5)->get();
         return view('articles', compact('posts'));
     }
 
     public function show($id)
     {
-        $posts = [
-            'Mon titre 1',
-            'Mon titre 2',
-            'Mon titre 3',
-        ];
-        $post = $posts[$id - 1] ?? "Pas de titre";
+
+        $post = Post::findOrFail($id);
+        //$post = Post::where('title','Rem consectetur reiciens aliquid ut sit.')->firstOrFail();
+        //dd($post);
+        //$post = $posts[$id - 1] ?? "Pas de titre";
         return view('article', [
             'post' => $post
         ]);
@@ -39,5 +41,23 @@ class PostController extends Controller
     public function contact()
     {
         return view('contact');
+    }
+
+    public function create()
+    {
+        return view('create');
+    }
+
+    public function store(Request $request)
+    {
+        /*$post = new Post();
+         $post->title = $request->title;
+         $post->content = $request->content;
+         $post->save();*/
+        Post::create([
+            'title' => $request->title,
+            'content' => $request->content,
+        ]);
+        dd("Post saved successfully");
     }
 }
