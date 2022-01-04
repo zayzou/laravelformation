@@ -31,6 +31,7 @@ Route::get('articles', function () {
 
 Route::get('/',[PostController::class,'index'])->name('welcome');
 Route::get('/post/{id}',[PostController::class,'show'])->whereNumber('id')->name("posts.show");
+Route::get('/tag/{id}',[PostController::class,'showTag'])->whereNumber('id')->name("tags.show");
 Route::get('post/create',[PostController::class,'create'])->whereNumber('id')->name("posts.create");
 Route::post('post/create',[PostController::class,'store'])->whereNumber('id')->name("posts.store");
 Route::get('/contact',[PostController::class,'contact'])->name('contact');

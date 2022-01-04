@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Post;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -36,6 +37,13 @@ class PostController extends Controller
         return view('article', [
             'post' => $post
         ]);
+    }
+
+    public function showTag($id)
+    {
+        $tagName = Tag::findOrFail($id)->name;
+        $posts = Tag::findOrFail($id)->posts()->get();
+        return view('tags', compact('posts','tagName'));
     }
 
     public function contact()
