@@ -22,7 +22,7 @@ class PostController extends Controller
         $post->delete();
         dd("supprimé");*/
 
-        $posts = Post::orderByDesc('created_at')->take(5)->get();
+        $posts = Post::orderByDesc('created_at')->get();
         return view('articles', compact('posts'));
     }
 
