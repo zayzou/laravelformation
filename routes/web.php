@@ -35,3 +35,4 @@ Route::get('/tag/{id}',[PostController::class,'showTag'])->whereNumber('id')->na
 Route::get('post/create',[PostController::class,'create'])->whereNumber('id')->name("posts.create");
 Route::post('post/create',[PostController::class,'store'])->whereNumber('id')->name("posts.store");
 Route::get('/contact',[PostController::class,'contact'])->name('contact');
+Route::get('/register',[PostController::class,'register']);

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
+use App\Models\Video;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -14,14 +16,14 @@ class PostController extends Controller
         //$posts = Post::all();
         //dd($posts);
         //update
-       /* $post = Post::find(1);
-        $post->update(['title'=>"New title"]);
-        dd("modifié ");*/
+        /* $post = Post::find(1);
+         $post->update(['title'=>"New title"]);
+         dd("modifié ");*/
 
         //delete
-      /*  $post = Post::find(8);
-        $post->delete();
-        dd("supprimé");*/
+        /*  $post = Post::find(8);
+          $post->delete();
+          dd("supprimé");*/
 
         $posts = Post::orderByDesc('created_at')->get();
         return view('articles', compact('posts'));
@@ -43,7 +45,7 @@ class PostController extends Controller
     {
         $tagName = Tag::findOrFail($id)->name;
         $posts = Tag::findOrFail($id)->posts()->get();
-        return view('tags', compact('posts','tagName'));
+        return view('tags', compact('posts', 'tagName'));
     }
 
     public function contact()
@@ -67,5 +69,23 @@ class PostController extends Controller
             'content' => $request->content,
         ]);
         dd("Post saved successfully");
+    }
+
+    public function register(){
+        $comment1 = new Comment(['content'=>'First comment']);
+        $comment2 = new Comment(['content'=>'Second comment']);
+        $comment3 = new Comment(['content'=>'Third comment']);
+        $comment4 = new Comment(['content'=>'Fourth comment']);
+
+        $post = Post::find(12);
+        $video = Video::find(1);
+
+        $post->comments()->saveMany([
+            $comment1,
+            $comment2,
+            $comment3,
+        ]);
+
+        $video->comments()->save($comment4);
     }
 }

@@ -8,10 +8,11 @@
             @foreach ($posts as $post)
                 <li class="list-group-item ">
                     @isset($post->image)
-                        <span>{{$post->image->path}}</span> |
+                        <img src="{{$post->image->path}}" alt="">
                     @endisset
                     <a class="text-decoration-none"
-                       href="{{route("posts.show",['id'=>$post->id])}}">{{$post->title}}</a>
+                       href="{{route("posts.show",['id'=>$post->id])}}">
+                        {{$post->title}}</a>
                 </li>
             @endforeach
         @else
