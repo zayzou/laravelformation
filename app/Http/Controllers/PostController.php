@@ -6,6 +6,7 @@ use App\Models\Comment;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Video;
+use App\Rules\Uppercase;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -60,10 +61,11 @@ class PostController extends Controller
 
     public function store(Request $request)
     {
-        /*$post = new Post();
-         $post->title = $request->title;
-         $post->content = $request->content;
-         $post->save();*/
+
+        $request->validate([
+            'title' => 'required|min:5|max:255|alpha_num',
+            'content'=>['required',new Uppercase]
+        ]);
         Post::create([
             'title' => $request->title,
             'content' => $request->content,
@@ -71,11 +73,12 @@ class PostController extends Controller
         dd("Post saved successfully");
     }
 
-    public function register(){
-        $comment1 = new Comment(['content'=>'First comment']);
-        $comment2 = new Comment(['content'=>'Second comment']);
-        $comment3 = new Comment(['content'=>'Third comment']);
-        $comment4 = new Comment(['content'=>'Fourth comment']);
+    public function register()
+    {
+        $comment1 = new Comment(['content' => 'First comment']);
+        $comment2 = new Comment(['content' => 'Second comment']);
+        $comment3 = new Comment(['content' => 'Third comment']);
+        $comment4 = new Comment(['content' => 'Fourth comment']);
 
         $post = Post::find(12);
         $video = Video::find(1);
