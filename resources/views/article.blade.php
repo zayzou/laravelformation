@@ -2,7 +2,7 @@
 @section('content')
     <h3>Détail de article</h3>
     <p>{{$post->content}}</p>
-    <p>{{$post->image ? $post->image->path : "Aucune image"}}</p>
+    <img class="image" src="{{Storage::url($post->image->path)}}" alt="image">
     <hr>
     @forelse($post->comments as $comment)
         <div>
