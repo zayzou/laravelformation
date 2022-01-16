@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('content')
     <h3>Créer un article</h3>
-    <form action="{{ route('posts.store') }}" method="POST" novalidate>
+    <form action="{{ route('posts.store') }}" method="POST" novalidate enctype="multipart/form-data">
         @csrf
         <div class="mb-3">
             <label for="exampleFormControlInput1" class="form-label">Post title</label>
@@ -23,6 +23,10 @@
                 </div>
             @enderror
         </div>
+        <div class="mb-3">
+            <label for="formFile" class="form-label">Default file input example</label>
+            <input class="form-control" type="file" id="avatar" name="avatar" accept="image/png image/jpeg">
+          </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>
 @endsection

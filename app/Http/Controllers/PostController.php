@@ -3,10 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Comment;
+use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Video;
-use App\Rules\Uppercase;
 use Illuminate\Http\Request;
 
 class PostController extends Controller
@@ -63,14 +63,20 @@ class PostController extends Controller
     {
 
         $request->validate([
-            'title' => 'required|min:5|max:255|alpha_num',
-            'content'=>['required',new Uppercase]
+            'title' => 'required|min:5|max:255',
+            'content' => ['required']
         ]);
-        Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
+//        Storage::disk('local')->put('avatars',$request->file('avatar'));
+        $fileName = time() . '.upload.' . $request->file('avatar')->extension();
+        $path = $request->file('avatar')->storeAs('avatars', $fileName, 'public');
+        $image = new Image();
+        $image->path = $path;
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
         ]);
-        dd("Post saved successfully");
+        $post->image()->save($image);
+        return redirect()->route('welcome');
     }
 
     public function register()
