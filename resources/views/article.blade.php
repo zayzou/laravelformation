@@ -2,11 +2,8 @@
 @section('content')
     <h3>Détail de article</h3>
     <p>{{$post->content}}</p>
-    <img class="image" src="{{Storage::url($post->image->path)}}" alt="image">
-    <hr>
     @forelse($post->comments as $comment)
         <div>
-            <span>¤¤¤</span>{{$comment->content}}
         </div>
     @empty
         <div class="text-muted">

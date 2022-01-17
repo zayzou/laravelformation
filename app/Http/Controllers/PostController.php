@@ -7,7 +7,6 @@ use App\Models\Image;
 use App\Models\Post;
 use App\Models\Tag;
 use App\Models\Video;
-use App\Rules\Uppercase;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -66,29 +65,19 @@ class PostController extends Controller
 
         $request->validate([
             'title' => 'required|min:5|max:255',
-            'content' => ['required'],
-            'avatar' => 'required'
+            'content' => ['required']
         ]);
-
-        //$name = Storage::disk('local')->put('avatars',$request->file('avatar'));
-        $name = time() . '.' . $request->avatar->extension();
-
-        $path = $request->file("avatar")->storeAs(
-            'avatars',
-            $name,
-            'public'
-        );
-
-        $post = Post::create([
-            'title' => $request->title,
-            'content' => $request->content,
-        ]);
-
+//        Storage::disk('local')->put('avatars',$request->file('avatar'));
+        $fileName = time() . '.upload.' . $request->file('avatar')->extension();
+        $path = $request->file('avatar')->storeAs('avatars', $fileName, 'public');
         $image = new Image();
         $image->path = $path;
+        $post = Post::create([
+            'title' => $request->input('title'),
+            'content' => $request->input('content'),
+        ]);
         $post->image()->save($image);
-
-        dd("Post saved successfully");
+        return redirect()->route('welcome');
     }
 
     public function register()

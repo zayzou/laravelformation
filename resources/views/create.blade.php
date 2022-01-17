@@ -25,7 +25,7 @@
         </div>
         <div class="mb-3">
             <label for="formFile" class="form-label">Default file input example</label>
-            <input class="form-control" type="file" id="avatar" name="avatar" >
+            <input class="form-control" type="file" id="avatar" name="avatar" accept="image/png image/jpeg">
           </div>
         <button type="submit" class="btn btn-primary">Envoyer</button>
     </form>
